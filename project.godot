@@ -13,6 +13,15 @@ config_version=4
 config/name="Fitgamejam-team 10"
 config/icon="res://icon.png"
 
+[editor]
+
+version_control_autoload_on_startup=true
+version_control_plugin_name="GitAPI"
+
+[gdnative]
+
+singletons=[  ]
+
 [gui]
 
 common/drop_mouse_on_gui_input_disabled=true
