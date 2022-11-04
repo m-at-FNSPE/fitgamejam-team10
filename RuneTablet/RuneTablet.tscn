@@ -9,6 +9,7 @@
 script = ExtResource( 3 )
 
 [node name="debug_UI" type="Sprite" parent="."]
+visible = false
 position = Vector2( 958.055, 540 )
 scale = Vector2( 9.93692, 9.94444 )
 texture = ExtResource( 2 )
@@ -22,46 +23,46 @@ texture = ExtResource( 1 )
 position = Vector2( 1618, 622 )
 
 [node name="TL" type="Sprite" parent="Grid"]
-position = Vector2( -162.25, -161 )
-scale = Vector2( 3.43878, 3.45833 )
+position = Vector2( -170, -164 )
+scale = Vector2( 3.5, 3.5 )
 texture = ExtResource( 4 )
 
 [node name="TM" type="Sprite" parent="Grid"]
-position = Vector2( 9, -161 )
-scale = Vector2( 3.33333, 3.33333 )
+position = Vector2( 2, -164 )
+scale = Vector2( 3.5, 3.5 )
 texture = ExtResource( 4 )
 
 [node name="TR" type="Sprite" parent="Grid"]
-position = Vector2( 171, -159 )
-scale = Vector2( 3.4375, 3.4375 )
+position = Vector2( 173, -165 )
+scale = Vector2( 3.5, 3.5 )
 texture = ExtResource( 4 )
 
 [node name="ML" type="Sprite" parent="Grid"]
-position = Vector2( -165, 6 )
-scale = Vector2( 3.1875, 3.1875 )
+position = Vector2( -169, 4 )
+scale = Vector2( 3.5, 3.5 )
 texture = ExtResource( 4 )
 
 [node name="MM" type="Sprite" parent="Grid"]
-position = Vector2( 2, 7 )
-scale = Vector2( 3.29167, 3.29167 )
+position = Vector2( 3, 3 )
+scale = Vector2( 3.5, 3.5 )
 texture = ExtResource( 4 )
 
 [node name="MR" type="Sprite" parent="Grid"]
-position = Vector2( 176, 6 )
-scale = Vector2( 3.16667, 3.16667 )
+position = Vector2( 173, 4 )
+scale = Vector2( 3.5, 3.5 )
 texture = ExtResource( 4 )
 
 [node name="BL" type="Sprite" parent="Grid"]
-position = Vector2( -165, 171 )
-scale = Vector2( 2.95833, 2.95833 )
+position = Vector2( -169, 172 )
+scale = Vector2( 3.5, 3.5 )
 texture = ExtResource( 4 )
 
 [node name="BM" type="Sprite" parent="Grid"]
-position = Vector2( 8.99988, 172 )
-scale = Vector2( 3.02083, 3.02083 )
+position = Vector2( 2, 172 )
+scale = Vector2( 3.5, 3.5 )
 texture = ExtResource( 4 )
 
 [node name="BR" type="Sprite" parent="Grid"]
-position = Vector2( 177, 178 )
-scale = Vector2( 3.45833, 3.45833 )
+position = Vector2( 175, 172 )
+scale = Vector2( 3.5, 3.5 )
 texture = ExtResource( 4 )
