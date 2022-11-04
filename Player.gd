@@ -32,7 +32,7 @@ func _process(delta):
 	if Input.is_action_just_pressed("debug_action"):
 		var projectile = ProjectileScene.instance()
 		projectile.position = Vector2.ZERO
-		projectile.velocity = 30
+		projectile.velocity = 1300
 		projectile.direction = input.angle()
 		add_child(projectile)
 	
@@ -42,5 +42,4 @@ func _process(delta):
 		velocity -= velocity.normalized() * decay
 	else:
 		velocity = Vector2.ZERO
-	
 	position += velocity * delta
