@@ -8,6 +8,8 @@ export var speed = 400
 export var acceleration = 100
 export var decay = 50.0
 
+var input
+
 var velocity = Vector2.ZERO
 
 export(PackedScene) var ProjectileScene
@@ -20,7 +22,7 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	var input = Vector2.ZERO
+	input = Vector2.ZERO
 	if Input.is_action_pressed("movement_up"):
 		input.y -= 1
 	if Input.is_action_pressed("movement_down"):
@@ -29,12 +31,6 @@ func _process(delta):
 		input.x -= 1
 	if Input.is_action_pressed("movement_right"):
 		input.x += 1
-	if Input.is_action_just_pressed("debug_action"):
-		var projectile = ProjectileScene.instance()
-		projectile.position = Vector2.ZERO
-		projectile.velocity = 1300
-		projectile.direction = input.angle()
-		add_child(projectile)
 	
 	velocity += input.normalized() * acceleration
 	velocity = velocity.limit_length(speed)
@@ -43,3 +39,12 @@ func _process(delta):
 	else:
 		velocity = Vector2.ZERO
 	position += velocity * delta
+
+
+func _unhandled_input(event):
+	if Input.is_action_just_pressed("debug_action"):
+		var projectile = ProjectileScene.instance()
+		projectile.position = Vector2.ZERO
+		projectile.velocity = 1300
+		projectile.direction = input.angle()
+		add_child(projectile)
