@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/bob.png-bc9ebcfc797eaa31d54656a6e9d01055.stex"
+path="res://.import/gulica.png-67eec819b140907a5f9ecac8a3dd21d7.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/bob.png"
-dest_files=[ "res://.import/bob.png-bc9ebcfc797eaa31d54656a6e9d01055.stex" ]
+source_file="res://art/projectile/gulica.png"
+dest_files=[ "res://.import/gulica.png-67eec819b140907a5f9ecac8a3dd21d7.stex" ]
 
 [params]
 
