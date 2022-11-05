@@ -1,15 +1,16 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://Pedastal/Pedastal.png" type="Texture" id=1]
+[ext_resource path="res://Assets/Props/BookStand.png" type="Texture" id=1]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 281.064
 
 [node name="Pedastal" type="Area2D"]
+scale = Vector2( 0.316939, 0.316939 )
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( -2.00001, 2.29999 )
-scale = Vector2( 2.425, 2.425 )
+scale = Vector2( 6.37328, 6.37328 )
 texture = ExtResource( 1 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

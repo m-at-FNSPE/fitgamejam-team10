@@ -82,6 +82,8 @@ func mana_decay(delta):
 	manadecay_buffer -= delta
 	if manadecay_buffer < 0:
 		mana -= delta
+	if mana < 0:
+		mana = 0
 		
 func movement_controller(delta):
 	input = Vector2.ZERO
@@ -101,4 +103,7 @@ func movement_controller(delta):
 	else:
 		velocity = Vector2.ZERO
 	move_and_slide(velocity)
+	
+func on_door_move(x, y):
+	position = position + Vector2(x,y)
 	

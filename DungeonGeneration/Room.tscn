@@ -1,8 +1,10 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://DungeonGeneration/Room_Plain.png" type="Texture" id=1]
 [ext_resource path="res://DungeonGeneration/Room.gd" type="Script" id=2]
 [ext_resource path="res://RuneTablet/debugUI.png" type="Texture" id=3]
+[ext_resource path="res://Pedastal/Pedastal.tscn" type="PackedScene" id=4]
+[ext_resource path="res://DoorSpriteFrames.tres" type="SpriteFrames" id=5]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 659.188, 54.5 )
@@ -16,8 +18,23 @@ extents = Vector2( 655.156, 26 )
 [sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 44.9688, 438.5 )
 
+[sub_resource type="RectangleShape2D" id=5]
+extents = Vector2( 69, 65.375 )
+
+[sub_resource type="RectangleShape2D" id=6]
+extents = Vector2( 30.375, 70.5 )
+
+[sub_resource type="RectangleShape2D" id=7]
+extents = Vector2( 36.25, 63.5 )
+
+[sub_resource type="RectangleShape2D" id=8]
+extents = Vector2( 64.4285, 25.1932 )
+
 [node name="Room" type="Node2D"]
 script = ExtResource( 2 )
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="DEBUG" type="Sprite" parent="."]
 visible = false
@@ -34,6 +51,7 @@ __meta__ = {
 }
 
 [node name="Walls" type="Node2D" parent="."]
+visible = false
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Walls"]
 
@@ -58,3 +76,81 @@ shape = SubResource( 3 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/StaticBody2D4"]
 position = Vector2( 59.9688, 559.5 )
 shape = SubResource( 4 )
+
+[node name="PREFABS" type="Node2D" parent="."]
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="BOSS" type="Node2D" parent="PREFABS"]
+
+[node name="LACTERN" type="Node2D" parent="PREFABS"]
+
+[node name="Pedastal" parent="PREFABS/LACTERN" instance=ExtResource( 4 )]
+position = Vector2( 687, 534 )
+
+[node name="START" type="Node2D" parent="PREFABS"]
+
+[node name="Pedastal" parent="PREFABS/START" instance=ExtResource( 4 )]
+position = Vector2( 459, 527 )
+
+[node name="Pedastal2" parent="PREFABS/START" instance=ExtResource( 4 )]
+position = Vector2( 906, 526 )
+
+[node name="Doors" type="Node2D" parent="."]
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="North" type="Area2D" parent="Doors"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Doors/North"]
+position = Vector2( 666, 83.625 )
+shape = SubResource( 5 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Doors/North"]
+position = Vector2( 668, 74 )
+frames = ExtResource( 5 )
+
+[node name="West" type="Area2D" parent="Doors"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Doors/West"]
+position = Vector2( 77.625, 510.5 )
+shape = SubResource( 6 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Doors/West"]
+position = Vector2( 55, 510 )
+rotation = -1.57079
+scale = Vector2( 1.00195, 0.72 )
+frames = ExtResource( 5 )
+
+[node name="East" type="Area2D" parent="Doors"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Doors/East"]
+position = Vector2( 1270.25, 523.5 )
+shape = SubResource( 7 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Doors/East"]
+position = Vector2( 1291, 532 )
+rotation = 1.57079
+scale = Vector2( 1, 0.84 )
+frames = ExtResource( 5 )
+
+[node name="South" type="Area2D" parent="Doors"]
+scale = Vector2( 1.00195, 1 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Doors/South"]
+position = Vector2( 704.125, 991.878 )
+scale = Vector2( 0.968177, 0.987488 )
+shape = SubResource( 8 )
+
+[node name="AnimatedSprite2" type="AnimatedSprite" parent="Doors/South"]
+position = Vector2( 703.626, 1016 )
+rotation = 3.14159
+scale = Vector2( 0.998051, 0.56 )
+frames = ExtResource( 5 )
+
+[connection signal="body_entered" from="Doors/North" to="." method="_on_North_body_entered"]
+[connection signal="body_entered" from="Doors/West" to="." method="_on_West_body_entered"]
+[connection signal="body_entered" from="Doors/East" to="." method="_on_East_body_entered"]
+[connection signal="body_entered" from="Doors/South" to="." method="_on_South_body_entered"]
