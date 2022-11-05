@@ -1,8 +1,20 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://DungeonGeneration/Room_Plain.png" type="Texture" id=1]
 [ext_resource path="res://DungeonGeneration/Room.gd" type="Script" id=2]
 [ext_resource path="res://RuneTablet/debugUI.png" type="Texture" id=3]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 659.188, 54.5 )
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 41.25, 448 )
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 655.156, 26 )
+
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 44.9688, 438.5 )
 
 [node name="Room" type="Node2D"]
 script = ExtResource( 2 )
@@ -14,6 +26,35 @@ scale = Vector2( 10, 10 )
 texture = ExtResource( 3 )
 
 [node name="RoomBG" type="Sprite" parent="."]
-position = Vector2( 680, 528 )
+position = Vector2( 679, 530 )
 scale = Vector2( 5, 5 )
 texture = ExtResource( 1 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Walls" type="Node2D" parent="."]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Walls"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/StaticBody2D"]
+position = Vector2( 678.813, 67.5 )
+shape = SubResource( 1 )
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="Walls"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/StaticBody2D2"]
+position = Vector2( 1297, 558 )
+shape = SubResource( 2 )
+
+[node name="StaticBody2D3" type="StaticBody2D" parent="Walls"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/StaticBody2D3"]
+position = Vector2( 674.156, 1018 )
+shape = SubResource( 3 )
+
+[node name="StaticBody2D4" type="StaticBody2D" parent="Walls"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/StaticBody2D4"]
+position = Vector2( 59.9688, 559.5 )
+shape = SubResource( 4 )

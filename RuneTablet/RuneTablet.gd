@@ -112,7 +112,7 @@ func draw_state():
 func tint_pressed():
 	for i in range(9):
 		if state[i]:
-			grid[i].modulate = Color(1,0,0)
+			grid[i].modulate = Color(1,0.6,0.6)
 		else:
 			grid[i].modulate = Color(1,1,1)
 
