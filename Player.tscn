@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Player.gd" type="Script" id=1]
+[ext_resource path="res://Projectile.tscn" type="PackedScene" id=2]
+[ext_resource path="res://art/player/player.tres" type="SpriteFrames" id=3]
+
+[node name="Player" type="KinematicBody2D"]
+script = ExtResource( 1 )
+speed = 500
+acceleration = 70
+decay = 40.0
+ProjectileScene = ExtResource( 2 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+frames = ExtResource( 3 )
+animation = "player"
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PoolVector2Array( 10, -40, 13, -23, 7, -17, -1, -15, 1, -2, 14, -15, 18, -13, 0, 4, -1, 19, 19, 37, 16, 41, -5, 26, -28, 42, -31, 37, -7, 18, -5, 3, -38, -15, -36, -20, -4, -3, -5, -15, -16, -18, -21, -30, -18, -40, -5, -45, 8, -43 )
