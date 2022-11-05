@@ -104,3 +104,6 @@ func movement_controller(delta):
 		velocity = Vector2.ZERO
 	move_and_slide(velocity)
 	
+func on_door_move(x, y):
+	position = position + Vector2(x,y)
+	
