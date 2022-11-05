@@ -11,6 +11,10 @@ var room_layout
 var cleared_rooms
 var current_position
 
+var current_enemies = []
+var current_doors = []
+
+enum {EMPTY, GENERIC, START, BOSS, LACTERN}
 
 
 func generate_layout():
@@ -88,41 +92,24 @@ func generate_lactern_room():
 func add_doors():
 	for i in $Doors.get_children():
 		i.hide()
+		i.get_node("CollisionShape2D").set_disabled(true)
 		i.set_process(false)
-
-		
-		
+	
+	current_doors = []
 	if current_position.x != 0 and room_layout[current_position.x - 1][current_position.y]:
-		enable_north_door()
+		current_doors.append($Doors/North)
 	if current_position.x != map_size.x and room_layout[current_position.x + 1][current_position.y]:
-		enable_south_door()
+		current_doors.append($Doors/South)
 	if current_position.y != 0 and room_layout[current_position.x][current_position.y - 1]:
-		enable_west_door()
+		current_doors.append($Doors/West)
 	if current_position.y != map_size.y and room_layout[current_position.x][current_position.y + 1]:
-		enable_east_door()
-
-
-func enable_north_door():
-	$Doors/North.show()
-	$Doors/North.set_process(true)
-
-
+		current_doors.append($Doors/East)
 	
-func enable_south_door():
-	$Doors/South.show()
-	$Doors/South.set_process(true)
-
-
-	
-func enable_west_door():
-	$Doors/West.show()
-	$Doors/West.set_process(true)
-
-
-func enable_east_door():
-	$Doors/East.show()
-	$Doors/East.set_process(true)
-	
+	for door in current_doors:
+		door.show()
+		door.get_node("AnimatedSprite").frame = 0
+		
+	_checks_on_enemy_dying(null)
 
 
 func _on_North_body_entered(body):
@@ -149,3 +136,26 @@ func _on_South_body_entered(body):
 		current_position.x += 1
 		generate_room()
 		emit_signal("MovedThroughDoor_OffsetBy", 0, -750)
+
+
+
+
+func _checks_on_enemy_dying(enemy):
+	current_enemies.erase(enemy)
+	if current_enemies.size() == 0:
+		room_emptied()
+
+
+func room_emptied():
+	open_doors()
+	if typeof(room_layout[current_position.x][current_position.y]) == TYPE_INT and room_layout[current_position.x][current_position.y] == BOSS:
+		spawn_stairs()
+
+func spawn_stairs():
+	pass
+
+func open_doors():
+	for door in current_doors:
+		door.set_process(true)
+		door.get_node("AnimatedSprite").frame = (1)
+		door.get_node("CollisionShape2D").set_disabled(false)

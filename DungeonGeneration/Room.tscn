@@ -144,7 +144,7 @@ position = Vector2( 704.125, 991.878 )
 scale = Vector2( 0.968177, 0.987488 )
 shape = SubResource( 8 )
 
-[node name="AnimatedSprite2" type="AnimatedSprite" parent="Doors/South"]
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Doors/South"]
 position = Vector2( 703.626, 1016 )
 rotation = 3.14159
 scale = Vector2( 0.998051, 0.56 )

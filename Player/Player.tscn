@@ -1,13 +1,14 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Player/Player.gd" type="Script" id=1]
 [ext_resource path="res://Player/Projectile.tscn" type="PackedScene" id=2]
 [ext_resource path="res://art/player/player.tres" type="SpriteFrames" id=3]
+[ext_resource path="res://Assets/Props/Sword.png" type="Texture" id=4]
 
 [sub_resource type="CircleShape2D" id=4]
 
 [sub_resource type="CircleShape2D" id=2]
-radius = 25.0
+radius = 41.5933
 
 [sub_resource type="CircleShape2D" id=3]
 radius = 177.003
@@ -15,6 +16,47 @@ radius = 177.003
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 21.0
 height = 24.0
+
+[sub_resource type="Animation" id=5]
+resource_name = "sword_swing"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Center_of_mass/Sprite:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ -97.7311, -43.2 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Center_of_mass/Sprite:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/2/type = "method"
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = false
+tracks/2/keys = {
+"times": PoolRealArray( 0.6 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ null ],
+"method": "sword_attack"
+} ]
+}
 
 [node name="Player" type="KinematicBody2D"]
 position = Vector2( 386, 374 )
@@ -42,8 +84,8 @@ __meta__ = {
 }
 
 [node name="SwordHitBox" type="Area2D" parent="Center_of_mass"]
-collision_layer = 0
-collision_mask = 2
+collision_layer = 7
+collision_mask = 7
 __meta__ = {
 "_edit_lock_": true
 }
@@ -55,9 +97,15 @@ __meta__ = {
 "_edit_lock_": true
 }
 
+[node name="Sprite" type="Sprite" parent="Center_of_mass"]
+position = Vector2( 12, 5 )
+rotation = -1.61055
+texture = ExtResource( 4 )
+offset = Vector2( 20.5, 21 )
+
 [node name="AOE_hitbox" type="Area2D" parent="."]
-collision_layer = 0
-collision_mask = 2
+collision_layer = 7
+collision_mask = 7
 __meta__ = {
 "_edit_lock_": true
 }
@@ -77,3 +125,12 @@ shape = SubResource( 1 )
 __meta__ = {
 "_edit_lock_": true
 }
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+unique_name_in_owner = true
+anims/sword_swing = SubResource( 5 )
+
+[connection signal="body_entered" from="Center_of_mass/SwordHitBox" to="." method="_on_SwordHitBox_body_entered"]
+[connection signal="body_exited" from="Center_of_mass/SwordHitBox" to="." method="_on_SwordHitBox_body_exited"]
+[connection signal="body_entered" from="AOE_hitbox" to="." method="_on_AOE_hitbox_body_entered"]
+[connection signal="body_exited" from="AOE_hitbox" to="." method="_on_AOE_hitbox_body_exited"]

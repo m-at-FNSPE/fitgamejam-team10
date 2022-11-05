@@ -104,7 +104,7 @@ func initialize_textures():
 
 func _unhandled_input(_event):
 	for i in range(9):
-		if Input.is_action_pressed(input_names[i]):
+		if Input.is_action_pressed(input_names[i]) and state[i] == false:
 			state[i] = true
 			state_changed = true
 	if Input.is_action_just_pressed("rune_confirm"):

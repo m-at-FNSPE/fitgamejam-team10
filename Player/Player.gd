@@ -11,7 +11,7 @@ export var acceleration = 100
 export var decay = 50.0
 
 var input
-
+var facing_direction = Vector2(1,0)
 var velocity = Vector2.ZERO
 
 export(PackedScene) var ProjectileScene
@@ -21,6 +21,9 @@ export var maxmana = 200
 var mana
 export var manadecay_buffer_max = 20
 var manadecay_buffer
+
+var sword_coliding_with_enemies = []
+var AOE_colisions = []
 
 
 # Called when the node enters the scene tree for the first time.
@@ -37,24 +40,28 @@ func _process(delta):
 	movement_controller(delta)
 
 func spawn_projectile(type):
+		# Detach from player and attach to room
 		var projectile = ProjectileScene.instance()
-		projectile.position = Vector2.ZERO
-		projectile.velocity = 1300
-		projectile.direction = input.angle()
-		add_child(projectile)
+		projectile.position = position
+		projectile.velocity = 1000
+		projectile.direction = facing_direction.angle()
+		projectile.type = 0
+		get_parent().add_child(projectile)
 		
 func sword_attack(type):
-		var projectile = ProjectileScene.instance()
-		projectile.position = Vector2.ZERO
-		projectile.velocity = 1300
-		projectile.direction = input.angle()
-		add_child(projectile)
+	get_node("AnimationPlayer").play("sword_swing")
+	for i in sword_coliding_with_enemies:
+		if i.has_method("hit_by_sword"):
+			i.hit_by_sword(5, facing_direction, 200, type)
 
 func cast_nullification():
-	print_debug("NULLIFY")
+	if mana >= maxmana:
+		emit_signal("nullification")
 	
 func cast_aoe():
-	print_debug("NULLIFY")
+	for i in AOE_colisions:
+		if i.has_method("hit_by_sword"):
+			i.hit_by_sword(5, facing_direction, 100, "neutral")
 
 
 func cast_mana_stop():
@@ -85,7 +92,7 @@ func mana_decay(delta):
 	if mana < 0:
 		mana = 0
 		
-func movement_controller(delta):
+func movement_controller(_delta):
 	input = Vector2.ZERO
 	if Input.is_action_pressed("movement_up"):
 		input.y -= 1
@@ -95,6 +102,12 @@ func movement_controller(delta):
 		input.x -= 1
 	if Input.is_action_pressed("movement_right"):
 		input.x += 1
+
+	if input != Vector2.ZERO:
+		facing_direction = input.normalized()
+	
+	$Center_of_mass.rotation = atan2(facing_direction.y, facing_direction.x)
+
 	
 	velocity += input.normalized() * acceleration
 	velocity = velocity.limit_length(speed)
@@ -107,3 +120,19 @@ func movement_controller(delta):
 func on_door_move(x, y):
 	position = position + Vector2(x,y)
 	
+
+
+func _on_SwordHitBox_body_entered(body):
+	sword_coliding_with_enemies.append(body)
+
+
+func _on_SwordHitBox_body_exited(body):
+	sword_coliding_with_enemies.erase(body)
+
+
+func _on_AOE_hitbox_body_entered(body):
+	AOE_colisions.append(body)
+
+
+func _on_AOE_hitbox_body_exited(body):
+	AOE_colisions.erase(body)
