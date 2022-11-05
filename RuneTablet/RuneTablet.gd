@@ -56,6 +56,11 @@ func initialize_textures():
 	textures["default_corner"]  = preload("res://RuneTablet/default_corner.png")
 	textures["default_side"]  = preload("res://RuneTablet/default_side.png")
 	textures["default_top"]  = preload("res://RuneTablet/default_top.png")
+	
+	textures["default_1_texture"]  = preload("res://RuneTablet/1_neighbor.png")
+	textures["default_3_texture"]  = preload("res://RuneTablet/3_neighbor.png")
+	textures["default_4_texture"]  = preload("res://RuneTablet/4_neighbor.png")
+	textures["default_side_texture"]  = preload("res://RuneTablet/side.png")
 
 func _unhandled_input(_event):
 	for i in range(9):
@@ -93,22 +98,15 @@ func draw_state():
 	tint_pressed()
 	rune_empty()
 	
-		
-	if how_many_cells_active() == 1:
-		rune_one_cell_somewhere()
-	
-	#elif how_many_cells_active() == 2:
-		#rune_two_cells_somewhere()
-	else:
-		match rune_number():
-			0:
-				rune_empty()
-			0b101010101:
-				rune_x()
-			0b111101111:
-				rune_circle()
-			_:
-				rune_default()
+	match rune_number():
+		0:
+			rune_empty()
+		0b101010101:
+			rune_x()
+		0b111101111:
+			rune_circle()
+		_:
+			rune_default()
 
 
 func tint_pressed():
@@ -145,45 +143,102 @@ func rune_circle():
 func rune_empty():
 	for i in grid:
 		load_texture_to_a_tile(i, "default")
-		
-func rune_one_cell_somewhere():
-	for i in range(9):
-		if state[i]:
-			load_texture_to_a_tile(grid[i], "default_circle")
+
+
+
+func check_left(i):
+	if i != 0 and i != 3 and i != 6 and state[i-1]:
+		return true
+	return false
+
+func check_right(i):
+	if  i != 2 and i != 5 and i != 8 and state[i+1]:
+		return true
+	return false
 	
-func rune_two_cells_somewhere():
-	pass
+	
+func check_top(i):
+	if i != 0 and i != 1 and i != 2 and state[i-3]:
+		return true
+	return false
+	
+func check_bottom(i):
+	if i != 6 and i != 7 and i != 8 and state[i+3]:
+		return true
+	return false
+
+
 
 func rune_default():
-	if state[0]:
-		load_texture_to_a_tile(TL, "default_corner")
-	if state[1]:
-		load_texture_to_a_tile(TM, "default_top")
-	if state[2]:
-		load_texture_to_a_tile(TR, "default_corner", false, true)
-	if state[3]:
-		load_texture_to_a_tile(ML, "default_side")
-	if state[4]:
-		load_texture_to_a_tile(MM, "default_circle")
-	if state[5]:
-		load_texture_to_a_tile(MR, "default_side", false, true)
-	if state[6]:
-		load_texture_to_a_tile(BL, "default_corner", true)
-	if state[7]:
-		load_texture_to_a_tile(BM, "default_top", true)
-	if state[8]:
-		load_texture_to_a_tile(BR, "default_corner", true, true)
+	for i in range(9):
+		var tile = grid[i]
+		
+		if not state[i]:
+			load_texture_to_a_tile(tile, "default")
+			continue
+		
+		if i == 4 and state[1] and state[3] and state[5] and state[7]:
+			load_texture_to_a_tile(tile, random_4_neighbors_texture())
+
+		elif check_bottom(i) and check_left(i) and check_right(i):
+			load_texture_to_a_tile(tile, random_3_neighbors_texture())
+		elif check_top(i) and check_left(i) and check_right(i):
+			load_texture_to_a_tile(tile, random_3_neighbors_texture(), true)
+		elif check_bottom(i) and check_left(i) and check_top(i):
+			load_texture_to_a_tile(tile, random_3_neighbors_texture(), false, true, true)
+		elif check_bottom(i) and check_top(i) and check_right(i):
+			load_texture_to_a_tile(tile, random_3_neighbors_texture(), true, false, true)
+
+		elif check_bottom(i) and check_right(i):
+			load_texture_to_a_tile(tile, random_corner_neighbors_texture())
+		elif check_top(i) and check_right(i):
+			load_texture_to_a_tile(tile, random_corner_neighbors_texture(), true)
+		elif check_bottom(i) and check_left(i):
+			load_texture_to_a_tile(tile, random_corner_neighbors_texture(), false, true, false)
+		elif check_top(i) and check_left(i):
+			load_texture_to_a_tile(tile, random_corner_neighbors_texture(), true, true)
+
+		elif check_bottom(i) and check_top(i):
+			load_texture_to_a_tile(tile, random_straight_neighbors_texture())
+		elif check_left(i) and check_right(i):
+			load_texture_to_a_tile(tile, random_straight_neighbors_texture(), false, false, true)
+
+		elif check_right(i):
+			load_texture_to_a_tile(tile, random_1_texture())
+		elif check_left(i):
+			load_texture_to_a_tile(tile, random_1_texture(), false, true)
+		elif check_top(i):
+			load_texture_to_a_tile(tile, random_1_texture(), false, true, true)
+		elif check_bottom(i):
+			load_texture_to_a_tile(tile, random_1_texture(), false, false, true)
+
+		else:
+			load_texture_to_a_tile(tile, no_neighbors_texture())
 
 
-
-
-
-
-
-
-
-
-
-
-
-
+func random_4_neighbors_texture():
+	var options = ["default_4_texture"]
+	return options[randi() % options.size()]
+	
+	
+func random_3_neighbors_texture():
+	var options = ["default_3_texture"]
+	return options[randi() % options.size()]
+	
+	
+func random_corner_neighbors_texture():
+	var options = ["default_corner"]
+	return options[randi() % options.size()]
+	
+	
+func random_straight_neighbors_texture():
+	var options = ["default_side"]
+	return options[randi() % options.size()]
+	
+func random_1_texture():
+	var options = ["default_1_texture"]
+	return options[randi() % options.size()]
+	
+func no_neighbors_texture():
+	var options = ["default_circle"]
+	return options[randi() % options.size()]
