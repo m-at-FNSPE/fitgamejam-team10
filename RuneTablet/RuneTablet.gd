@@ -47,20 +47,60 @@ func _process(_delta):
 
 
 func initialize_textures():
+	textures["default"]  = preload("res://RuneTablet/Tile.png")
+	
+	# Replace this? Deprecated for now
 	textures["top_left_x"] = preload("res://RuneTablet/top_left_x.png")
 	textures["mid_x"]  = preload("res://RuneTablet/x_mid.png")
-	textures["default"]  = preload("res://RuneTablet/Tile.png")
+	
+	
+	
+	
+	textures["circle_corner"]  = preload("res://Assets/Runes/ZERO_NW.png")
+	textures["circle_top"]  = preload("res://Assets/Runes/ZERO_N.png")
+	textures["circle_side"] = preload("res://Assets/Runes/ZERO_W.png")
+	
+	
+	# DEPRECATED (Didnt have time to check)
 	textures["default_circle"]  = preload("res://RuneTablet/circle.png")
-	textures["circle_corner"]  = preload("res://RuneTablet/circle_big_tl_corner.png")
-	textures["circle_top"]  = preload("res://RuneTablet/circle_big_top.png")
 	textures["default_corner"]  = preload("res://RuneTablet/default_corner.png")
 	textures["default_side"]  = preload("res://RuneTablet/default_side.png")
 	textures["default_top"]  = preload("res://RuneTablet/default_top.png")
-	
 	textures["default_1_texture"]  = preload("res://RuneTablet/1_neighbor.png")
 	textures["default_3_texture"]  = preload("res://RuneTablet/3_neighbor.png")
 	textures["default_4_texture"]  = preload("res://RuneTablet/4_neighbor.png")
 	textures["default_side_texture"]  = preload("res://RuneTablet/side.png")
+	
+	# USED FOR PROC GEN
+	textures["4_1"] = preload("res://Assets/Runes/RuneFourSides01.png")
+	textures["4_2"] = preload("res://Assets/Runes/RuneFourSides02.png")
+	textures["4_3"] = preload("res://Assets/Runes/RuneFourSides03.png")
+	textures["4_4"] = preload("res://Assets/Runes/RuneFourSides04.png")
+	
+	textures["1_1"] = preload("res://Assets/Runes/RuneHalf01.png")
+	textures["1_2"] = preload("res://Assets/Runes/RuneHalf02.png")
+	textures["1_3"] = preload("res://Assets/Runes/RuneHalf03.png")
+	
+	textures["0_1"] = preload("res://Assets/Runes/RuneSolo01.png")
+	textures["0_2"] = preload("res://Assets/Runes/RuneSolo02.png")
+	textures["0_3"] = preload("res://Assets/Runes/RuneSolo03.png")
+	
+	textures["3_1"] = preload("res://Assets/Runes/RuneThreeSides01.png")
+	textures["3_2"] = preload("res://Assets/Runes/RuneThreeSides02.png")
+	textures["3_3"] = preload("res://Assets/Runes/RuneThreeSides03.png")
+	textures["3_4"] = preload("res://Assets/Runes/RuneThreeSides04.png")
+	textures["3_5"] = preload("res://Assets/Runes/RuneThreeSides05.png")
+	
+	textures["straight_1"] = preload("res://Assets/Runes/RuneTop-Down01.png")
+	textures["straight_2"] = preload("res://Assets/Runes/RuneTop-Down02.png")
+	textures["straight_3"] = preload("res://Assets/Runes/RuneTop-Down03.png")
+	textures["straight_4"] = preload("res://Assets/Runes/RuneTop-Down04.png")
+
+	textures["2_1"] = preload("res://Assets/Runes/RuneTwoSides01.png")
+	textures["2_2"] = preload("res://Assets/Runes/RuneTwoSides02.png")
+	textures["2_3"] = preload("res://Assets/Runes/RuneTwoSides03.png")
+	textures["2_4"] = preload("res://Assets/Runes/RuneTwoSides04.png")
+	textures["2_5"] = preload("res://Assets/Runes/RuneTwoSides05.png")
 
 func _unhandled_input(_event):
 	for i in range(9):
@@ -101,10 +141,10 @@ func draw_state():
 	match rune_number():
 		0:
 			rune_empty()
-		0b101010101:
-			rune_x()
-		0b111101111:
-			rune_circle()
+		#0b101010101:
+		#	rune_x()
+		#0b111101111:
+		#	rune_circle()
 		_:
 			rune_default()
 
@@ -118,8 +158,12 @@ func tint_pressed():
 
 func load_texture_to_a_tile(tile, texture: String, flip_v = false, flip_h = false, rotate_half_pi = false):
 	tile.set_texture(textures[texture])
-	tile.scale.x = (1 - int(flip_h)*2) * initial_scale.x
-	tile.scale.y = (1 - int(flip_v)*2) * initial_scale.y
+	var sizeto=Vector2(172,172)
+	var size=tile.texture.get_size()
+	var scale_factor=sizeto/size
+	tile.scale=scale_factor
+	tile.scale.x *= (1 - int(flip_h)*2) 
+	tile.scale.y *= (1 - int(flip_v)*2)
 	tile.set_rotation(int(rotate_half_pi) * PI/2)
 	
 func identical_corners(texture: String):
@@ -135,10 +179,10 @@ func rune_x():
 func rune_circle():
 	identical_corners("circle_corner")
 	
-	load_texture_to_a_tile(TM, "circle_top", false, false)
-	load_texture_to_a_tile(MR, "circle_top", false, false, true)
-	load_texture_to_a_tile(ML, "circle_top", true, false, true)
+	load_texture_to_a_tile(TM, "circle_top")
 	load_texture_to_a_tile(BM, "circle_top", true)
+	load_texture_to_a_tile(ML, "circle_side")
+	load_texture_to_a_tile(MR, "circle_side", false, true)
 
 func rune_empty():
 	for i in grid:
@@ -217,28 +261,28 @@ func rune_default():
 
 
 func random_4_neighbors_texture():
-	var options = ["default_4_texture"]
+	var options = ["4_1", "4_2", "4_3", "4_4"]
 	return options[randi() % options.size()]
 	
 	
 func random_3_neighbors_texture():
-	var options = ["default_3_texture"]
+	var options = ["3_1", "3_2", "3_3", "3_4", "3_5"]
 	return options[randi() % options.size()]
 	
 	
 func random_corner_neighbors_texture():
-	var options = ["default_corner"]
+	var options = ["2_1", "2_2", "2_3", "2_4", "2_5"]
 	return options[randi() % options.size()]
 	
 	
 func random_straight_neighbors_texture():
-	var options = ["default_side"]
+	var options = ["straight_1", "straight_2", "straight_3", "straight_4"]
 	return options[randi() % options.size()]
 	
 func random_1_texture():
-	var options = ["default_1_texture"]
+	var options = ["1_1", "1_2", "1_3"]
 	return options[randi() % options.size()]
 	
 func no_neighbors_texture():
-	var options = ["default_circle"]
+	var options = ["0_1", "0_2", "0_3"]
 	return options[randi() % options.size()]
