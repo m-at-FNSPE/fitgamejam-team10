@@ -40,7 +40,6 @@ func _process(delta):
 	movement_controller(delta)
 
 func spawn_projectile(type):
-		# Detach from player and attach to room
 		var projectile = ProjectileScene.instance()
 		projectile.position = position
 		projectile.velocity = 1000

@@ -5,6 +5,11 @@ extends Node2D
 signal MovedThroughDoor_OffsetBy 
 
 
+
+export (PackedScene) var SlimeScene = preload("res://Enemies/Slime.tscn")
+export (PackedScene) var SkullScene = preload("res://Enemies/Skull.tscn")
+
+
 const map_size = Vector2(4,4) # from 0 to the value including
 
 var room_layout
@@ -16,6 +21,7 @@ var current_doors = []
 
 enum {EMPTY, GENERIC, START, BOSS, LACTERN}
 
+var possible_enemies
 
 func generate_layout():
 	# 0 empty, 1 random room, 2 spawm, 3 boss, 4 reading
@@ -43,6 +49,8 @@ func _ready():
 	generate_layout()
 	
 	generate_room()
+	
+	possible_enemies = [SlimeScene, SkullScene]
 
 func disable_prefabs():
 	for i in $PREFABS.get_children():
@@ -62,8 +70,39 @@ func generate_room():
 
 
 func generate_room_hashed():
-	pass
+	var h = room_layout[current_position.x][current_position.y].sha1_buffer()
+	h = (("0x" + h.hex_encode().substr(5,15)).hex_to_int())
+	var spawning_type = [	false, true, true, false,  # true for walls, false for mobs
+							true, false, false, true,
+							true, false, false, true,
+							false, true, true, false]
+	for i in range(16):
+		if (1 << i) & h == 0:
+			print(i)
+			spawning_type[i] = true
+			print(spawning_type)
+			
+	var available_spots = $SpawnLocations.get_children()
+	for i in range(16):
+		if available_spots[i]:
+			spawn_wall(available_spots[i].position)
+		else:
+			spawn_enemy(available_spots[i].position)
 
+
+func spawn_wall(pos):
+	var enemy = possible_enemies[randi() % possible_enemies.size()].instance()
+	enemy.position = pos
+	current_enemies.append(enemy)
+	$Enemies.call_deferred("add_child", enemy)
+
+func spawn_enemy(pos):
+	print(pos)
+	var enemy = possible_enemies[randi() % possible_enemies.size()].instance()
+	enemy.position = pos
+	current_enemies.append(enemy)
+	$Enemies.add_child(enemy)
+	
 
 func generate_prefab_room():
 	match room_layout[current_position.x][current_position.y]:
@@ -92,7 +131,7 @@ func generate_lactern_room():
 func add_doors():
 	for i in $Doors.get_children():
 		i.hide()
-		i.get_node("CollisionShape2D").set_disabled(true)
+		i.monitoring = false
 		i.set_process(false)
 	
 	current_doors = []
@@ -104,7 +143,7 @@ func add_doors():
 		current_doors.append($Doors/West)
 	if current_position.y != map_size.y and room_layout[current_position.x][current_position.y + 1]:
 		current_doors.append($Doors/East)
-	
+		
 	for door in current_doors:
 		door.show()
 		door.get_node("AnimatedSprite").frame = 0
@@ -116,26 +155,26 @@ func _on_North_body_entered(body):
 	if body.name == "Player" and current_position.x != 0 and room_layout[current_position.x - 1][current_position.y]:
 		current_position.x -= 1
 		generate_room()
-		emit_signal("MovedThroughDoor_OffsetBy", 0, 750)
+		emit_signal("MovedThroughDoor_OffsetBy", 0, 720)
 
 
 func _on_West_body_entered(body):
 	if body.name == "Player" and current_position.y != 0 and room_layout[current_position.x][current_position.y - 1]:
 		current_position.y -= 1
 		generate_room()
-		emit_signal("MovedThroughDoor_OffsetBy", 1050, 0)
+		emit_signal("MovedThroughDoor_OffsetBy", 1020, 0)
 
 func _on_East_body_entered(body):
 	if body.name == "Player" and current_position.y != map_size.x and room_layout[current_position.x][current_position.y + 1]:
 		current_position.y += 1
 		generate_room()
-		emit_signal("MovedThroughDoor_OffsetBy", -1050, 0)
+		emit_signal("MovedThroughDoor_OffsetBy", -1020, 0)
 
 func _on_South_body_entered(body):
 	if body.name == "Player" and current_position.x != map_size.y and room_layout[current_position.x + 1][current_position.y]:
 		current_position.x += 1
 		generate_room()
-		emit_signal("MovedThroughDoor_OffsetBy", 0, -750)
+		emit_signal("MovedThroughDoor_OffsetBy", 0, -720)
 
 
 
@@ -144,6 +183,7 @@ func _checks_on_enemy_dying(enemy):
 	current_enemies.erase(enemy)
 	if current_enemies.size() == 0:
 		room_emptied()
+
 
 
 func room_emptied():
@@ -158,4 +198,5 @@ func open_doors():
 	for door in current_doors:
 		door.set_process(true)
 		door.get_node("AnimatedSprite").frame = (1)
-		door.get_node("CollisionShape2D").set_disabled(false)
+		door.monitoring = true
+

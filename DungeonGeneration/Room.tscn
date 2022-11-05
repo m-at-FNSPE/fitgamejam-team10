@@ -150,6 +150,59 @@ rotation = 3.14159
 scale = Vector2( 0.998051, 0.56 )
 frames = ExtResource( 5 )
 
+[node name="SpawnLocations" type="Node2D" parent="."]
+position = Vector2( 49, -42 )
+
+[node name="Position2D" type="Position2D" parent="SpawnLocations"]
+position = Vector2( 303, 314 )
+
+[node name="Position2D2" type="Position2D" parent="SpawnLocations"]
+position = Vector2( 483, 320 )
+
+[node name="Position2D3" type="Position2D" parent="SpawnLocations"]
+position = Vector2( 761, 326 )
+
+[node name="Position2D4" type="Position2D" parent="SpawnLocations"]
+position = Vector2( 977, 307 )
+
+[node name="Position2D5" type="Position2D" parent="SpawnLocations"]
+position = Vector2( 301, 506 )
+
+[node name="Position2D6" type="Position2D" parent="SpawnLocations"]
+position = Vector2( 481, 496 )
+
+[node name="Position2D7" type="Position2D" parent="SpawnLocations"]
+position = Vector2( 767, 498 )
+
+[node name="Position2D8" type="Position2D" parent="SpawnLocations"]
+position = Vector2( 994, 515 )
+
+[node name="Position2D9" type="Position2D" parent="SpawnLocations"]
+position = Vector2( 314, 701 )
+
+[node name="Position2D10" type="Position2D" parent="SpawnLocations"]
+position = Vector2( 486, 697 )
+
+[node name="Position2D11" type="Position2D" parent="SpawnLocations"]
+position = Vector2( 761, 701 )
+
+[node name="Position2D12" type="Position2D" parent="SpawnLocations"]
+position = Vector2( 992, 693 )
+
+[node name="Position2D13" type="Position2D" parent="SpawnLocations"]
+position = Vector2( 311, 869 )
+
+[node name="Position2D14" type="Position2D" parent="SpawnLocations"]
+position = Vector2( 513, 881 )
+
+[node name="Position2D15" type="Position2D" parent="SpawnLocations"]
+position = Vector2( 776, 869 )
+
+[node name="Position2D16" type="Position2D" parent="SpawnLocations"]
+position = Vector2( 1000, 881 )
+
+[node name="Enemies" type="Node2D" parent="."]
+
 [connection signal="body_entered" from="Doors/North" to="." method="_on_North_body_entered"]
 [connection signal="body_entered" from="Doors/West" to="." method="_on_West_body_entered"]
 [connection signal="body_entered" from="Doors/East" to="." method="_on_East_body_entered"]

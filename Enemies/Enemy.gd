@@ -65,4 +65,5 @@ func hit_by_sword(damage:int , direction:Vector2, knockback ,type):
 func die():
 	emit_signal("die", self)
 	#$AnimatedSprite.play()
+	queue_free()
 	
