@@ -6,6 +6,7 @@
 radius = 281.064
 
 [node name="Pedastal" type="Area2D"]
+scale = Vector2( 0.316939, 0.316939 )
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( -2.00001, 2.29999 )
