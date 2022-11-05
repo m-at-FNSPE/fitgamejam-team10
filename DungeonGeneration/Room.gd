@@ -23,6 +23,8 @@ enum {EMPTY, GENERIC, START, BOSS, LACTERN}
 
 var possible_enemies
 
+var leavable = true
+
 func generate_layout():
 	# 0 empty, 1 random room, 2 spawm, 3 boss, 4 reading
 	room_layout = [	[3, "sf", "ss", "gs", 4],
@@ -84,24 +86,21 @@ func generate_room_hashed():
 			
 	var available_spots = $SpawnLocations.get_children()
 	for i in range(16):
-		if available_spots[i]:
+		if spawning_type[i]:
 			spawn_wall(available_spots[i].position)
 		else:
 			spawn_enemy(available_spots[i].position)
 
 
 func spawn_wall(pos):
+	pass
+
+func spawn_enemy(pos):
 	var enemy = possible_enemies[randi() % possible_enemies.size()].instance()
 	enemy.position = pos
 	current_enemies.append(enemy)
 	$Enemies.call_deferred("add_child", enemy)
-
-func spawn_enemy(pos):
-	print(pos)
-	var enemy = possible_enemies[randi() % possible_enemies.size()].instance()
-	enemy.position = pos
-	current_enemies.append(enemy)
-	$Enemies.add_child(enemy)
+	enemy.connect("die", $RoomBG.get_parent(), "_checks_on_enemy_dying" )
 	
 
 func generate_prefab_room():
@@ -129,10 +128,10 @@ func generate_lactern_room():
 	$PREFABS/LACTERN.set_process(true)
 
 func add_doors():
+	leavable = false
 	for i in $Doors.get_children():
 		i.hide()
-		i.monitoring = false
-		i.set_process(false)
+#		i.set_process(false)
 	
 	current_doors = []
 	if current_position.x != 0 and room_layout[current_position.x - 1][current_position.y]:
@@ -152,6 +151,9 @@ func add_doors():
 
 
 func _on_North_body_entered(body):
+	if not leavable:
+		return
+	
 	if body.name == "Player" and current_position.x != 0 and room_layout[current_position.x - 1][current_position.y]:
 		current_position.x -= 1
 		generate_room()
@@ -159,18 +161,27 @@ func _on_North_body_entered(body):
 
 
 func _on_West_body_entered(body):
+	if not leavable:
+		return
+	
 	if body.name == "Player" and current_position.y != 0 and room_layout[current_position.x][current_position.y - 1]:
 		current_position.y -= 1
 		generate_room()
 		emit_signal("MovedThroughDoor_OffsetBy", 1020, 0)
 
 func _on_East_body_entered(body):
+	if not leavable:
+		return
+	
 	if body.name == "Player" and current_position.y != map_size.x and room_layout[current_position.x][current_position.y + 1]:
 		current_position.y += 1
 		generate_room()
 		emit_signal("MovedThroughDoor_OffsetBy", -1020, 0)
 
 func _on_South_body_entered(body):
+	if not leavable:
+		return
+
 	if body.name == "Player" and current_position.x != map_size.y and room_layout[current_position.x + 1][current_position.y]:
 		current_position.x += 1
 		generate_room()
@@ -181,6 +192,7 @@ func _on_South_body_entered(body):
 
 func _checks_on_enemy_dying(enemy):
 	current_enemies.erase(enemy)
+	print(current_enemies)
 	if current_enemies.size() == 0:
 		room_emptied()
 
@@ -195,8 +207,8 @@ func spawn_stairs():
 	pass
 
 func open_doors():
+	leavable = true
 	for door in current_doors:
-		door.set_process(true)
+#		door.set_process(true)
 		door.get_node("AnimatedSprite").frame = (1)
-		door.monitoring = true
 
