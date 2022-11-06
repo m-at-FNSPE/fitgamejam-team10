@@ -112,10 +112,10 @@ position = Vector2( 669, 529 )
 [node name="Hud" type="GridContainer" parent="."]
 anchor_left = 0.033
 anchor_right = 0.053
-margin_left = 1336.64
-margin_top = 15.0
-margin_right = 4789.24
-margin_bottom = 2074.0
+margin_left = 1406.0
+margin_top = 16.0
+margin_right = 4858.6
+margin_bottom = 2075.0
 rect_scale = Vector2( 0.132806, 0.132806 )
 custom_constants/hseparation = 459
 columns = 2

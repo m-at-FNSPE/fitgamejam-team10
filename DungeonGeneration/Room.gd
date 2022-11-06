@@ -12,6 +12,10 @@ export (PackedScene) var SkullScene = preload("res://Enemies/Skull.tscn")
 export (PackedScene) var RockScene = preload("res://BigClutter/Rock.tscn")
 export (PackedScene) var LampScene = preload("res://BigClutter/LampPost.tscn")
 
+export (PackedScene) var BoxScene = preload("res://BigClutter/Box.tscn")
+export (PackedScene) var SmallRockScene = preload("res://BigClutter/SmallRock.tscn")
+export (PackedScene) var EmptyClutterScene = preload("res://BigClutter/EmptyClutter.tscn")
+
 export (PackedScene) var Lactern = preload("res://Pedastal/Pedastal.tscn")
 export (PackedScene) var BossScene = preload("res://Enemies/Boss.tscn")
 
@@ -95,7 +99,7 @@ func _ready():
 	random_book_seed = randi()
 	
 	possible_enemies = [SlimeScene, SkullScene]
-	possible_walls = [RockScene, LampScene]
+	possible_walls = [RockScene, LampScene, SmallRockScene, EmptyClutterScene, BoxScene]
 
 
 

@@ -44,5 +44,6 @@ func reset():
 	$Room._ready()
 	$Player.position = $Room/PREFABS/LACTERN/Position2D.position
 	$RuneTablet.reset_state()
+	floorNumber = 3
 	
 	
