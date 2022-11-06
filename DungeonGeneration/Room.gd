@@ -15,6 +15,8 @@ export (PackedScene) var LampScene = preload("res://BigClutter/LampPost.tscn")
 export (PackedScene) var Lactern = preload("res://Pedastal/Pedastal.tscn")
 export (PackedScene) var BossScene = preload("res://Enemies/Boss.tscn")
 
+export (PackedScene) var help = preload("res://BigClutter/ControlGuide.tscn")
+
 const map_size = Vector2(4,4) # from 0 to the value including
 
 var room_layout
@@ -35,12 +37,37 @@ var leavable = true
 
 func generate_layout():
 	# 0 empty, 1 random room, 2 spawm, 3 boss, 4 reading
-	room_layout = [	[3, "sf", "ss", "gs", 4],
+	room_layout = [	[0, 0, 0, 0, 0],
 					[0, 0, "hs", 0, 0],
-					[0, 0, "fs", 0, 0],
+					[0, "gd", 2, "hd", 0],
 					[0, 0, "ss", 0, 0],
-					[0, 3, 2, "s", 0]]
-	current_position = Vector2(4,2)
+					[0, 0, 0, 0, 0]]
+	var boss = randi()%4
+	var lactern = randi()%4
+	if lactern == boss:
+		lactern = (lactern + 1)%4
+	
+	match boss:
+		1:
+			room_layout[0][2] = 3
+		2:
+			room_layout[2][0] = 3
+		3:
+			room_layout[2][4] = 3
+		0: 
+			room_layout[4][2] = 3
+	
+	match lactern:
+		1:
+			room_layout[0][2] = 4
+		2:
+			room_layout[2][0] = 4
+		3:
+			room_layout[2][4] = 4
+		0: 
+			room_layout[4][2] = 4
+	
+	current_position = Vector2(2,2)
 	initialize_cleared_rooms()
 	
 
@@ -132,10 +159,15 @@ func generate_prefab_room():
 func generate_start_room():
 	var lac1 = Lactern.instance()
 	var lac2 = Lactern.instance()
+	var h = help.instance()
+	
 	lac1.position = $PREFABS/START/Left.position
 	lac2.position = $PREFABS/START/Right.position
+	
+	h.position = $PREFABS/LACTERN/Position2D.position
 	$BigClutter.call_deferred("add_child", lac1)
 	$BigClutter.call_deferred("add_child", lac2)
+	$BigClutter.call_deferred("add_child", h)
 	yield(get_tree().create_timer(0.1), "timeout")  # Technically wrong but its fine
 	lac1.left_spawn()
 	lac2.right_spawn()

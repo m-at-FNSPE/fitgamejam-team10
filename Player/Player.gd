@@ -56,7 +56,7 @@ func spawn_projectile(type):
 		get_parent().add_child(projectile)
 		
 func sword_attack(type):
-	get_node("AnimationPlayer").play("sword_swing")
+	get_node("AnimationPlayer").play("cast")
 	for i in sword_coliding_with_enemies:
 		if i.has_method("hit_by_sword"):
 			i.hit_by_sword(5, facing_direction, 200, type)
