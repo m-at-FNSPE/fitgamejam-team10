@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://Player/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://GameScenes/Game.gd" type="Script" id=2]
@@ -12,6 +12,7 @@
 [ext_resource path="res://Assets/UI/ProgressBars/ProgressMana.png" type="Texture" id=10]
 [ext_resource path="res://Assets/UI/Frames/Frame_Everything.png" type="Texture" id=11]
 [ext_resource path="res://Assets/UI/Frames/Frame_Game.png" type="Texture" id=12]
+[ext_resource path="res://Assets/Music/darkess-118749.mp3" type="AudioStream" id=13]
 
 [sub_resource type="VisualShaderNodeInput" id=1]
 input_name = "screen_texture"
@@ -168,6 +169,10 @@ margin_bottom = 2059.0
 margin_right = 40.0
 margin_bottom = 40.0
 texture = ExtResource( 12 )
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 13 )
+autoplay = true
 
 [connection signal="finished_floor" from="Room" to="." method="_on_Completed_floor"]
 [connection signal="current_health" from="Player" to="." method="_on_Player_current_health"]
