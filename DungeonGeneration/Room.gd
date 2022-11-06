@@ -13,6 +13,7 @@ export (PackedScene) var RockScene = preload("res://BigClutter/Rock.tscn")
 export (PackedScene) var LampScene = preload("res://BigClutter/LampPost.tscn")
 
 export (PackedScene) var Lactern = preload("res://Pedastal/Pedastal.tscn")
+export (PackedScene) var BossScene = preload("res://Enemies/Boss.tscn")
 
 const map_size = Vector2(4,4) # from 0 to the value including
 
@@ -38,15 +39,18 @@ func generate_layout():
 					[0, 0, "hs", 0, 0],
 					[0, 0, "fs", 0, 0],
 					[0, 0, "ss", 0, 0],
-					[0, 4, 2, "s", 0]]
+					[0, 3, 2, "s", 0]]
 	current_position = Vector2(4,2)
 	initialize_cleared_rooms()
+	
 
 func initialize_cleared_rooms():
 	cleared_rooms = room_layout.duplicate(true)
 	for i in range(map_size.x + 1):
 		for j in range(map_size.y + 1):
 			if typeof(cleared_rooms[i][j]) == TYPE_STRING:
+				cleared_rooms[i][j] = true
+			elif cleared_rooms[i][j] == 3:
 				cleared_rooms[i][j] = true
 			else:
 				cleared_rooms[i][j] = false
@@ -135,11 +139,21 @@ func generate_start_room():
 	yield(get_tree().create_timer(0.1), "timeout")  # Technically wrong but its fine
 	lac1.left_spawn()
 	lac2.right_spawn()
+	
 
 
 
 func generate_boss_room():
-	pass
+	if not cleared_rooms[current_position.x][current_position.y]:
+		_checks_on_enemy_dying(null)
+		return
+	
+	
+	var boss = BossScene.instance()
+	boss.position = $PREFABS/LACTERN/Position2D.position
+	$Enemies.call_deferred("add_child", boss)
+	current_enemies.append(boss)
+	boss.connect("die", $RoomBG.get_parent(), "_checks_on_enemy_dying" )
 
 
 func generate_lactern_room():
