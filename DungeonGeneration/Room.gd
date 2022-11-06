@@ -92,8 +92,8 @@ func initialize_cleared_rooms():
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	emit_signal("finished_floor")
 	generate_layout()
-	
 	generate_room()
 	
 	random_book_seed = randi()
@@ -105,7 +105,7 @@ func _ready():
 
 func generate_room():
 	
-	for i in $BigClutter.get_children():
+	for i in $sorter/BigClutter.get_children():
 		i.queue_free()
 	
 	match typeof(room_layout[current_position.x][current_position.y]):
@@ -141,13 +141,13 @@ func generate_room_hashed():
 func spawn_wall(pos):
 	var object = possible_walls[randi() % possible_walls.size()].instance()
 	object.position = pos
-	$BigClutter.call_deferred("add_child", object)
+	$sorter/BigClutter.call_deferred("add_child", object)
 
 func spawn_enemy(pos):
 	var enemy = possible_enemies[randi() % possible_enemies.size()].instance()
 	enemy.position = pos
 	current_enemies.append(enemy)
-	$Enemies.call_deferred("add_child", enemy)
+	$sorter/Enemies.call_deferred("add_child", enemy)
 	enemy.connect("die", $RoomBG.get_parent(), "_checks_on_enemy_dying" )
 	
 
@@ -171,9 +171,9 @@ func generate_start_room():
 	lac2.position = $PREFABS/START/Right.position
 	
 	h.position = $PREFABS/LACTERN/Position2D.position
-	$BigClutter.call_deferred("add_child", lac1)
-	$BigClutter.call_deferred("add_child", lac2)
-	$BigClutter.call_deferred("add_child", h)
+	$sorter/BigClutter.call_deferred("add_child", lac1)
+	$sorter/BigClutter.call_deferred("add_child", lac2)
+	$sorter/BigClutter.call_deferred("add_child", h)
 	yield(get_tree().create_timer(0.1), "timeout")  # Technically wrong but its fine
 	lac1.left_spawn()
 	lac2.right_spawn()
@@ -189,7 +189,7 @@ func generate_boss_room():
 	
 	var boss = BossScene.instance()
 	boss.position = $PREFABS/LACTERN/Position2D.position
-	$Enemies.call_deferred("add_child", boss)
+	$sorter/Enemies.call_deferred("add_child", boss)
 	current_enemies.append(boss)
 	boss.connect("die", $RoomBG.get_parent(), "_checks_on_enemy_dying" )
 
@@ -197,7 +197,7 @@ func generate_boss_room():
 func generate_lactern_room():
 	var lac = Lactern.instance()
 	lac.position = $PREFABS/LACTERN/Position2D.position
-	$BigClutter.call_deferred("add_child", lac)
+	$sorter/BigClutter.call_deferred("add_child", lac)
 	yield(get_tree().create_timer(0.1), "timeout")
 	lac.pick(random_book_seed)
 
@@ -280,12 +280,11 @@ func room_emptied():
 func spawn_stairs():
 	var lac = exit.instance()
 	lac.position = $PREFABS/LACTERN/Position2D.position
-	$BigClutter.call_deferred("add_child", lac)
+	$sorter/BigClutter.call_deferred("add_child", lac)
 	lac.connect("body_entered", self, "remake_map")
 	
 func remake_map(body):
 	if body.has_method("dummy_method_only_player_has"):
-		emit_signal("finished_floor")
 		_ready()
 
 func open_doors():

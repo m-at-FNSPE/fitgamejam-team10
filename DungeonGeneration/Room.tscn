@@ -228,12 +228,14 @@ position = Vector2( 776, 869 )
 [node name="Position2D16" type="Position2D" parent="SpawnLocations"]
 position = Vector2( 1000, 881 )
 
-[node name="Enemies" type="Node2D" parent="."]
-
-[node name="BigClutter" type="Node2D" parent="."]
-
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/NullifyCast = SubResource( 9 )
+
+[node name="sorter" type="YSort" parent="."]
+
+[node name="Enemies" type="YSort" parent="sorter"]
+
+[node name="BigClutter" type="YSort" parent="sorter"]
 
 [connection signal="body_entered" from="Doors/North" to="." method="_on_North_body_entered"]
 [connection signal="body_entered" from="Doors/West" to="." method="_on_West_body_entered"]

@@ -7,7 +7,7 @@ extends Node
 signal game_over
 signal game_won
 
-var floorNumber = 3
+var floorNumber = 4
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -34,6 +34,13 @@ func _on_Completed_floor():
 	floorNumber -= 1
 	if floorNumber <= 0:
 		emit_signal("game_won")
+	countdown()
+	
+func countdown():
+	$ShowFloor.frame = floorNumber - 1
+	$ShowFloor.show()
+	yield(get_tree().create_timer(3.0), "timeout")
+	$ShowFloor.hide()
 		
 func reset():
 	$Room.kill_all_enemies()
