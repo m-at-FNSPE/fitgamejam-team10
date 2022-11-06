@@ -122,8 +122,10 @@ func movement_controller(_delta):
 	
 	velocity += input.normalized() * acceleration
 	velocity = velocity.limit_length(speed)
-	if velocity.length() > 10:
+	if velocity.length() > 20:
 		velocity -= velocity.normalized() * decay
+	elif velocity.length() > 10:
+		velocity -= velocity.normalized() * decay/2
 	else:
 		velocity = Vector2.ZERO
 	move_and_slide(velocity)
