@@ -15,6 +15,8 @@ var decay = 12
 signal die
 
 
+export(PackedScene) var death = preload("res://Enemies/Death.tscn")
+
 var normal_acceleration = acceleration
 
 # Called when the node enters the scene tree for the first time.
@@ -68,6 +70,8 @@ func dealt_damage_to_player():
 		
 func die():
 	emit_signal("die", self)
-	#$AnimatedSprite.play()
+	var x = death.instance()
+	get_tree().root.get_child(0).call_deferred("add_child", x)
+	x.position = position
 	queue_free()
 	

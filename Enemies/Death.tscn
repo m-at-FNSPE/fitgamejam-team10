@@ -1,0 +1,21 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Assets/Effects/SmokePuf/Effect_SmokePuff_01.png" type="Texture" id=1]
+[ext_resource path="res://Assets/Effects/SmokePuf/Effect_SmokePuff_00.png" type="Texture" id=2]
+[ext_resource path="res://Enemies/Death.gd" type="Script" id=3]
+[ext_resource path="res://Assets/Effects/SmokePuf/Effect_SmokePuff_02.png" type="Texture" id=4]
+[ext_resource path="res://Assets/Effects/SmokePuf/Effect_SmokePuff_03.png" type="Texture" id=5]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 2 ), ExtResource( 1 ), ExtResource( 4 ), ExtResource( 5 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[node name="Death" type="AnimatedSprite"]
+frames = SubResource( 1 )
+script = ExtResource( 3 )
+
+[connection signal="animation_finished" from="." to="." method="_on_Death_animation_finished"]
