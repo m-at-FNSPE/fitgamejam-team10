@@ -47,7 +47,7 @@ func _process(_delta):
 
 
 func initialize_textures():
-	textures["default"]  = preload("res://RuneTablet/Tile.png")
+	textures["default"]  = preload("res://Assets/UI/Keyboard/SingleButton_UP.png")
 	
 	# Replace this? Deprecated for now
 	textures["top_left_x"] = preload("res://RuneTablet/top_left_x.png")
@@ -158,7 +158,7 @@ func tint_pressed():
 
 func load_texture_to_a_tile(tile, texture: String, flip_v = false, flip_h = false, rotate_half_pi = false):
 	tile.set_texture(textures[texture])
-	var sizeto=Vector2(172,172)
+	var sizeto=Vector2(171,171)
 	var size=tile.texture.get_size()
 	var scale_factor=sizeto/size
 	tile.scale=scale_factor

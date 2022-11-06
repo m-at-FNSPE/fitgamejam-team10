@@ -5,6 +5,9 @@ extends KinematicBody2D
 # var b = "text"
 
 signal current_mana
+signal current_health 
+
+signal nullification
 
 export var speed = 400
 export var acceleration = 100
@@ -22,6 +25,9 @@ var mana
 export var manadecay_buffer_max = 20
 var manadecay_buffer
 
+var health = 200
+var max_health = 200
+
 var sword_coliding_with_enemies = []
 var AOE_colisions = []
 
@@ -36,6 +42,7 @@ func _process(delta):
 	mana_decay(delta)
 	
 	emit_signal("current_mana", mana)
+	emit_signal("current_health", health)
 	
 	movement_controller(delta)
 
@@ -52,6 +59,7 @@ func sword_attack(type):
 	for i in sword_coliding_with_enemies:
 		if i.has_method("hit_by_sword"):
 			i.hit_by_sword(5, facing_direction, 200, type)
+			mana += 5
 
 func cast_nullification():
 	if mana >= maxmana:

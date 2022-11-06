@@ -98,6 +98,7 @@ __meta__ = {
 }
 
 [node name="Sprite" type="Sprite" parent="Center_of_mass"]
+visible = false
 position = Vector2( 12, 5 )
 rotation = -1.61055
 texture = ExtResource( 4 )

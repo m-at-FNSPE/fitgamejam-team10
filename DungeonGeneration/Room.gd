@@ -80,16 +80,15 @@ func generate_room_hashed():
 							false, true, true, false]
 	for i in range(16):
 		if (1 << i) & h == 0:
-			print(i)
 			spawning_type[i] = true
-			print(spawning_type)
 			
 	var available_spots = $SpawnLocations.get_children()
 	for i in range(16):
 		if spawning_type[i]:
 			spawn_wall(available_spots[i].position)
 		else:
-			spawn_enemy(available_spots[i].position)
+			if cleared_rooms[current_position.x][current_position.y]:
+				spawn_enemy(available_spots[i].position)
 
 
 func spawn_wall(pos):
@@ -199,6 +198,7 @@ func _checks_on_enemy_dying(enemy):
 
 
 func room_emptied():
+	cleared_rooms[current_position.x][current_position.y] = false
 	open_doors()
 	if typeof(room_layout[current_position.x][current_position.y]) == TYPE_INT and room_layout[current_position.x][current_position.y] == BOSS:
 		spawn_stairs()

@@ -55,10 +55,10 @@ func turn_to_direction():
 	else:
 		scale.x = -1 * scale.y
 		
-func hit_by_sword(damage:int , direction:Vector2, knockback ,type):
+func hit_by_sword(damage:int , dir:Vector2, knockback ,_type):
 	life -= damage
 	velocity = -knockback
-	direction = direction
+	direction = dir
 	if life < 0:
 		die()
 		

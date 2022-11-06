@@ -10,8 +10,14 @@ extends Node
 func _ready():
 	$RuneTablet.connect("rune_casted", $Player, "_on_RuneTablet_rune_casted")
 	$Room.connect("MovedThroughDoor_OffsetBy", $Player, "on_door_move")
+	
+	$Hud/CenterContainer2/Health.max_value = $Player.max_health
+	$Hud/CenterContainer/Mana.max_value = $Player.maxmana
+	
+
+func _on_Player_current_health(value):
+	$Hud/CenterContainer2/Health.value = value
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+func _on_Player_current_mana(value):
+	$Hud/CenterContainer/Mana.value = value
