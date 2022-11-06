@@ -3,7 +3,7 @@ extends Node2D
 
 # Declare member variables here. Examples:
 signal MovedThroughDoor_OffsetBy 
-
+signal finished_floor
 
 
 export (PackedScene) var SlimeScene = preload("res://Enemies/Slime.tscn")
@@ -281,6 +281,7 @@ func spawn_stairs():
 	
 func remake_map(body):
 	if body.has_method("dummy_method_only_player_has"):
+		emit_signal("finished_floor")
 		_ready()
 
 func open_doors():

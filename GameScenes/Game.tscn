@@ -74,7 +74,7 @@ nodes/fragment/connections = PoolIntArray( 2, 0, 4, 2, 3, 0, 4, 0, 4, 0, 0, 0, 4
 [sub_resource type="ShaderMaterial" id=5]
 shader = SubResource( 4 )
 
-[node name="Game" type="Node"]
+[node name="Game" type="Node2D"]
 script = ExtResource( 2 )
 
 [node name="bg" type="TextureRect" parent="."]
@@ -169,5 +169,6 @@ margin_right = 40.0
 margin_bottom = 40.0
 texture = ExtResource( 12 )
 
+[connection signal="finished_floor" from="Room" to="." method="_on_Completed_floor"]
 [connection signal="current_health" from="Player" to="." method="_on_Player_current_health"]
 [connection signal="current_mana" from="Player" to="." method="_on_Player_current_mana"]
