@@ -1,6 +1,6 @@
 [gd_scene load_steps=14 format=2]
 
-[ext_resource path="res://DungeonGeneration/Room_Plain.png" type="Texture" id=1]
+[ext_resource path="res://Assets/Room/Room01.png" type="Texture" id=1]
 [ext_resource path="res://DungeonGeneration/Room.gd" type="Script" id=2]
 [ext_resource path="res://RuneTablet/debugUI.png" type="Texture" id=3]
 [ext_resource path="res://Pedastal/Pedastal.tscn" type="PackedScene" id=4]
@@ -44,7 +44,7 @@ texture = ExtResource( 3 )
 
 [node name="RoomBG" type="Sprite" parent="."]
 position = Vector2( 679, 530 )
-scale = Vector2( 5, 5 )
+scale = Vector2( 0.44947, 0.44947 )
 texture = ExtResource( 1 )
 __meta__ = {
 "_edit_lock_": true
@@ -109,7 +109,8 @@ position = Vector2( 666, 83.625 )
 shape = SubResource( 5 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Doors/North"]
-position = Vector2( 668, 74 )
+position = Vector2( 662, 99 )
+scale = Vector2( 0.485207, 0.485207 )
 frames = ExtResource( 5 )
 
 [node name="West" type="Area2D" parent="Doors"]
@@ -119,9 +120,9 @@ position = Vector2( 77.625, 510.5 )
 shape = SubResource( 6 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Doors/West"]
-position = Vector2( 55, 510 )
+position = Vector2( 91, 514 )
 rotation = -1.57079
-scale = Vector2( 1.00195, 0.72 )
+scale = Vector2( 0.505471, 0.363231 )
 frames = ExtResource( 5 )
 
 [node name="East" type="Area2D" parent="Doors"]
@@ -131,9 +132,9 @@ position = Vector2( 1270.25, 523.5 )
 shape = SubResource( 7 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Doors/East"]
-position = Vector2( 1291, 532 )
+position = Vector2( 1258, 527 )
 rotation = 1.57079
-scale = Vector2( 1, 0.84 )
+scale = Vector2( 0.482804, 0.405555 )
 frames = ExtResource( 5 )
 
 [node name="South" type="Area2D" parent="Doors"]
@@ -145,9 +146,9 @@ scale = Vector2( 0.968177, 0.987488 )
 shape = SubResource( 8 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Doors/South"]
-position = Vector2( 703.626, 1016 )
+position = Vector2( 702.63, 1005 )
 rotation = 3.14159
-scale = Vector2( 0.998051, 0.56 )
+scale = Vector2( 0.465376, 0.26112 )
 frames = ExtResource( 5 )
 
 [node name="SpawnLocations" type="Node2D" parent="."]
