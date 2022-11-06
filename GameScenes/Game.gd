@@ -32,7 +32,7 @@ func _on_Player_current_mana(value):
 
 func _on_Completed_floor():
 	floorNumber -= 1
-	if floorNumber <= 0:
+	if floorNumber == 0:
 		emit_signal("game_won")
 	countdown()
 	
