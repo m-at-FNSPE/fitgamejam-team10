@@ -36,6 +36,7 @@ var AOE_colisions = []
 func _ready():
 	mana = 0
 	manadecay_buffer = 0
+	$AnimatedSprite.play("player");
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -107,8 +108,11 @@ func movement_controller(_delta):
 		input.y += 1
 	if Input.is_action_pressed("movement_left"):
 		input.x -= 1
+		$AnimatedSprite.scale.x = -1;
 	if Input.is_action_pressed("movement_right"):
 		input.x += 1
+		$AnimatedSprite.scale.x = 1;
+		
 
 	if input != Vector2.ZERO:
 		facing_direction = input.normalized()
