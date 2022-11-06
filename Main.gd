@@ -26,6 +26,7 @@ func _on_MainMenu_credits():
 func _on_MainMenu_start_game():
 	$Game.show()
 	$MainMenu.hide()
+	$Game.countdown()
 
 
 func _on_Game_game_over():

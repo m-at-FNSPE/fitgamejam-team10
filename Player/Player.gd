@@ -75,7 +75,7 @@ func sword_attack(type):
 		$Center_of_mass/Sprite.modulate = Color(0, 0.78, 21)
 	else:
 		$Center_of_mass/Sprite.modulate = Color(1, 1, 1)
-	
+	$Spell.play()
 	get_node("AnimationPlayer").play("cast")
 	for i in sword_coliding_with_enemies:
 		if i.has_method("hit_by_sword"):
@@ -83,11 +83,12 @@ func sword_attack(type):
 			mana += 5
 
 func cast_nullification():
-	if mana >= maxmana - 10:
+	if mana >= maxmana - 10 or true:
+		$Nullify.play()
 		emit_signal("nullification")
-	mana = 0
 	
 func cast_aoe():
+	$AOE.play()
 	for i in AOE_colisions:
 		if i.has_method("hit_by_sword"):
 			i.hit_by_sword(5, facing_direction, 100, "neutral")

@@ -92,7 +92,6 @@ func initialize_cleared_rooms():
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	emit_signal("finished_floor")
 	generate_layout()
 	generate_room()
 	
@@ -285,6 +284,7 @@ func spawn_stairs():
 	
 func remake_map(body):
 	if body.has_method("dummy_method_only_player_has"):
+		emit_signal("finished_floor")
 		_ready()
 
 func open_doors():
@@ -299,3 +299,8 @@ func nullify_casted():
 func kill_all_enemies():
 	for enemy in current_enemies:
 		enemy.hit_by_sword(100000, Vector2(1,1), 0, "basic")
+	for enemy in current_enemies:
+		enemy.hit_by_sword(100000, Vector2(1,1), 0, "basic")
+	for enemy in current_enemies:
+		enemy.hit_by_sword(100000, Vector2(1,1), 0, "basic")
+

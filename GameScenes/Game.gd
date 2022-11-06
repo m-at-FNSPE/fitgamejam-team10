@@ -7,7 +7,7 @@ extends Node
 signal game_over
 signal game_won
 
-var floorNumber = 4
+var floorNumber = 3
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://Player/Player.gd" type="Script" id=1]
 [ext_resource path="res://Player/Projectile.tscn" type="PackedScene" id=2]
@@ -8,6 +8,9 @@
 [ext_resource path="res://Assets/Effects/Fire/FireAttack03.png" type="Texture" id=6]
 [ext_resource path="res://Assets/Effects/Fire/FireAttack04.png" type="Texture" id=7]
 [ext_resource path="res://Assets/Music/Footstep_Tile_Left_2.mp3" type="AudioStream" id=8]
+[ext_resource path="res://Assets/Music/Picks/nullify.wav" type="AudioStream" id=9]
+[ext_resource path="res://Assets/Music/Picks/AOE.wav" type="AudioStream" id=10]
+[ext_resource path="res://Assets/Music/Picks/flame.wav" type="AudioStream" id=11]
 
 [sub_resource type="CircleShape2D" id=4]
 
@@ -150,6 +153,18 @@ stream = ExtResource( 8 )
 volume_db = -10.0
 
 [node name="Timer" type="Timer" parent="."]
+
+[node name="Nullify" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 9 )
+
+[node name="AOE" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 10 )
+volume_db = 1.552
+
+[node name="Spell" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 11 )
+volume_db = 1.552
+pitch_scale = 2.67
 
 [connection signal="body_entered" from="Center_of_mass/SwordHitBox" to="." method="_on_SwordHitBox_body_entered"]
 [connection signal="body_exited" from="Center_of_mass/SwordHitBox" to="." method="_on_SwordHitBox_body_exited"]
