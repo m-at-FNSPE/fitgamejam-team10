@@ -21,6 +21,8 @@ onready var BR = $Grid/BR
 
 var state_changed = true
 
+var processing_input = true
+
 var grid
 var state = [false, false, false, false, false, false, false, false, false]
 
@@ -56,9 +58,9 @@ func initialize_textures():
 	
 	
 	
-	textures["circle_corner"]  = preload("res://Assets/Runes/ZERO_NW.png")
-	textures["circle_top"]  = preload("res://Assets/Runes/ZERO_N.png")
-	textures["circle_side"] = preload("res://Assets/Runes/ZERO_W.png")
+#	textures["circle_corner"]  = preload("res://Assets/Runes/ZERO_NW.png")
+#	textures["circle_top"]  = preload("res://Assets/Runes/ZERO_N.png")
+#	textures["circle_side"] = preload("res://Assets/Runes/ZERO_W.png")
 	
 	
 	# DEPRECATED (Didnt have time to check)
@@ -103,15 +105,23 @@ func initialize_textures():
 	textures["2_5"] = preload("res://Assets/Runes/RuneTwoSides05.png")
 
 func _unhandled_input(_event):
+	if not processing_input:
+		return
+	
 	for i in range(9):
 		if Input.is_action_pressed(input_names[i]) and state[i] == false:
 			state[i] = true
 			state_changed = true
 	if Input.is_action_just_pressed("rune_confirm"):
 		emit_signal("rune_casted", rune_number())
+		$space.hide()
+		processing_input = false
+		yield(get_tree().create_timer(0.5), "timeout")
+		processing_input = true
 		reset_state()
 
 func reset_state():
+	$space.show()
 	for i in range(9):
 		self.state[i] = false
 		state_changed = true

@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Assets/UI/Keyboard/SingleButton_UP.png" type="Texture" id=1]
 [ext_resource path="res://RuneTablet/debugUI.png" type="Texture" id=2]
 [ext_resource path="res://RuneTablet/RuneTablet.gd" type="Script" id=3]
+[ext_resource path="res://Assets/UI/Keyboard/SpaceButton_UP.png" type="Texture" id=4]
 [ext_resource path="res://Assets/UI/Keyboard/UI_Keyboard_DOWN_WithoutNumbers.png" type="Texture" id=5]
 
 [node name="RuneTablet" type="Node2D"]
@@ -67,3 +68,8 @@ texture = ExtResource( 1 )
 position = Vector2( 177, 107 )
 scale = Vector2( 0.668929, 0.668929 )
 texture = ExtResource( 1 )
+
+[node name="space" type="Sprite" parent="."]
+position = Vector2( 1619, 969 )
+scale = Vector2( 0.671875, 0.671875 )
+texture = ExtResource( 4 )
