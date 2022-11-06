@@ -116,7 +116,7 @@ func _unhandled_input(_event):
 		emit_signal("rune_casted", rune_number())
 		$space.hide()
 		processing_input = false
-		yield(get_tree().create_timer(0.5), "timeout")
+		yield(get_tree().create_timer(0.2), "timeout")
 		processing_input = true
 		reset_state()
 

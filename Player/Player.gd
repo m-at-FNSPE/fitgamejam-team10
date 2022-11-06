@@ -128,6 +128,9 @@ func movement_controller(_delta):
 		velocity = Vector2.ZERO
 	move_and_slide(velocity)
 	
+func dummy_method_only_player_has():
+	pass
+	
 func on_door_move(x, y):
 	position = position + Vector2(x,y)
 	

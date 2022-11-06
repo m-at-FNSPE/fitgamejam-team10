@@ -12,6 +12,8 @@ export (PackedScene) var SkullScene = preload("res://Enemies/Skull.tscn")
 export (PackedScene) var RockScene = preload("res://BigClutter/Rock.tscn")
 export (PackedScene) var LampScene = preload("res://BigClutter/LampPost.tscn")
 
+export (PackedScene) var Lactern = preload("res://Pedastal/Pedastal.tscn")
+
 const map_size = Vector2(4,4) # from 0 to the value including
 
 var room_layout
@@ -25,6 +27,8 @@ enum {EMPTY, GENERIC, START, BOSS, LACTERN}
 
 var possible_enemies
 var possible_walls
+
+var random_book_seed
 
 var leavable = true
 
@@ -55,16 +59,14 @@ func _ready():
 	
 	generate_room()
 	
+	random_book_seed = randi()
+	
 	possible_enemies = [SlimeScene, SkullScene]
 	possible_walls = [RockScene, LampScene]
 
-func disable_prefabs():
-	for i in $PREFABS.get_children():
-		i.hide()
-		i.set_process(false)
+
 
 func generate_room():
-	disable_prefabs()
 	
 	for i in $BigClutter.get_children():
 		i.queue_free()
@@ -124,8 +126,16 @@ func generate_prefab_room():
 
 
 func generate_start_room():
-	$PREFABS/START.show()
-	$PREFABS/START.set_process(true)
+	var lac1 = Lactern.instance()
+	var lac2 = Lactern.instance()
+	lac1.position = $PREFABS/START/Left.position
+	lac2.position = $PREFABS/START/Right.position
+	$BigClutter.call_deferred("add_child", lac1)
+	$BigClutter.call_deferred("add_child", lac2)
+	yield(get_tree().create_timer(0.1), "timeout")  # Technically wrong but its fine
+	lac1.left_spawn()
+	lac2.right_spawn()
+
 
 
 func generate_boss_room():
@@ -133,8 +143,11 @@ func generate_boss_room():
 
 
 func generate_lactern_room():
-	$PREFABS/LACTERN.show()
-	$PREFABS/LACTERN.set_process(true)
+	var lac = Lactern.instance()
+	lac.position = $PREFABS/LACTERN/Position2D.position
+	$BigClutter.call_deferred("add_child", lac)
+	yield(get_tree().create_timer(0.1), "timeout")
+	lac.pick(random_book_seed)
 
 func add_doors():
 	leavable = false
