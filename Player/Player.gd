@@ -72,8 +72,9 @@ func sword_attack(type):
 			mana += 5
 
 func cast_nullification():
-	if mana >= maxmana:
+	if mana >= maxmana - 10:
 		emit_signal("nullification")
+	mana = 0
 	
 func cast_aoe():
 	for i in AOE_colisions:
@@ -99,7 +100,14 @@ func _on_RuneTablet_rune_casted(rune_number):
 		cast_nullification()
 	if rune_number == 16:
 		cast_mana_stop()
-		
+	if rune_number == 338:
+		cast_heal()
+
+func cast_heal():
+	health = health + mana
+	mana = 0
+	if health > 200:
+		mana = health - 200
 
 
 func mana_decay(delta):

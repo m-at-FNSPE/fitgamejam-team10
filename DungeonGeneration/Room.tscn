@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Assets/Room/Room01.png" type="Texture" id=1]
 [ext_resource path="res://DungeonGeneration/Room.gd" type="Script" id=2]
@@ -28,6 +28,36 @@ extents = Vector2( 36.25, 63.5 )
 
 [sub_resource type="RectangleShape2D" id=8]
 extents = Vector2( 64.4285, 25.1932 )
+
+[sub_resource type="Animation" id=9]
+resource_name = "NullifyCast"
+length = 1.5
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.7, 1.1, 1.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 0.101961, 0.0823529, 0.0823529, 1 ), Color( 20.23, 20.93, 5.78, 1 ), Color( 0.104399, 0.0848444, 0.0848444, 1 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.6 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "kill_all_enemies"
+} ]
+}
 
 [node name="Room" type="Node2D"]
 script = ExtResource( 2 )
@@ -201,6 +231,9 @@ position = Vector2( 1000, 881 )
 [node name="Enemies" type="Node2D" parent="."]
 
 [node name="BigClutter" type="Node2D" parent="."]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/NullifyCast = SubResource( 9 )
 
 [connection signal="body_entered" from="Doors/North" to="." method="_on_North_body_entered"]
 [connection signal="body_entered" from="Doors/West" to="." method="_on_West_body_entered"]

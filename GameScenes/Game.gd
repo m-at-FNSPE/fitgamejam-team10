@@ -14,6 +14,8 @@ func _ready():
 	$Hud/CenterContainer2/Health.max_value = $Player.max_health
 	$Hud/CenterContainer/Mana.max_value = $Player.maxmana
 	
+	$Player.connect("nullification", $Room , "nullify_casted")
+	
 
 func _on_Player_current_health(value):
 	$Hud/CenterContainer2/Health.value = value

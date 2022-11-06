@@ -288,4 +288,10 @@ func open_doors():
 	for door in current_doors:
 #		door.set_process(true)
 		door.get_node("AnimatedSprite").frame = (1)
+		
+func nullify_casted():
+	$AnimationPlayer.play("NullifyCast")
 
+func kill_all_enemies():
+	for enemy in current_enemies:
+		enemy.hit_by_sword(100000, Vector2(1,1), 0, "basic")
