@@ -143,3 +143,11 @@ func _on_AOE_hitbox_body_entered(body):
 
 func _on_AOE_hitbox_body_exited(body):
 	AOE_colisions.erase(body)
+
+
+func _on_HitBox_body_entered(body):
+	print(body)
+	if body.has_method("dealt_damage_to_player"):
+		body.dealt_damage_to_player()
+		move_and_slide( 900 * (position - body.position).normalized())
+		health -= 10

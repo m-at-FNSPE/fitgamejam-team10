@@ -118,8 +118,8 @@ __meta__ = {
 }
 
 [node name="HitBox" type="Area2D" parent="."]
-collision_layer = 0
-collision_mask = 2
+collision_layer = 4
+collision_mask = 6
 
 [node name="HitBox" type="CollisionShape2D" parent="HitBox"]
 shape = SubResource( 1 )
@@ -135,3 +135,4 @@ anims/sword_swing = SubResource( 5 )
 [connection signal="body_exited" from="Center_of_mass/SwordHitBox" to="." method="_on_SwordHitBox_body_exited"]
 [connection signal="body_entered" from="AOE_hitbox" to="." method="_on_AOE_hitbox_body_entered"]
 [connection signal="body_exited" from="AOE_hitbox" to="." method="_on_AOE_hitbox_body_exited"]
+[connection signal="body_entered" from="HitBox" to="." method="_on_HitBox_body_entered"]

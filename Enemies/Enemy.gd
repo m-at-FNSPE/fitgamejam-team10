@@ -62,6 +62,10 @@ func hit_by_sword(damage:int , dir:Vector2, knockback ,_type):
 	if life < 0:
 		die()
 		
+func dealt_damage_to_player():
+	direction = player.position - position
+	velocity = -500
+		
 func die():
 	emit_signal("die", self)
 	#$AnimatedSprite.play()

@@ -9,6 +9,8 @@ signal MovedThroughDoor_OffsetBy
 export (PackedScene) var SlimeScene = preload("res://Enemies/Slime.tscn")
 export (PackedScene) var SkullScene = preload("res://Enemies/Skull.tscn")
 
+export (PackedScene) var RockScene = preload("res://BigClutter/Rock.tscn")
+export (PackedScene) var LampScene = preload("res://BigClutter/LampPost.tscn")
 
 const map_size = Vector2(4,4) # from 0 to the value including
 
@@ -22,6 +24,7 @@ var current_doors = []
 enum {EMPTY, GENERIC, START, BOSS, LACTERN}
 
 var possible_enemies
+var possible_walls
 
 var leavable = true
 
@@ -53,6 +56,7 @@ func _ready():
 	generate_room()
 	
 	possible_enemies = [SlimeScene, SkullScene]
+	possible_walls = [RockScene, LampScene]
 
 func disable_prefabs():
 	for i in $PREFABS.get_children():
@@ -61,6 +65,10 @@ func disable_prefabs():
 
 func generate_room():
 	disable_prefabs()
+	
+	for i in $BigClutter.get_children():
+		i.queue_free()
+	
 	match typeof(room_layout[current_position.x][current_position.y]):
 		TYPE_STRING:
 			generate_room_hashed()
@@ -92,7 +100,9 @@ func generate_room_hashed():
 
 
 func spawn_wall(pos):
-	pass
+	var object = possible_walls[randi() % possible_walls.size()].instance()
+	object.position = pos
+	$BigClutter.call_deferred("add_child", object)
 
 func spawn_enemy(pos):
 	var enemy = possible_enemies[randi() % possible_enemies.size()].instance()
@@ -191,7 +201,6 @@ func _on_South_body_entered(body):
 
 func _checks_on_enemy_dying(enemy):
 	current_enemies.erase(enemy)
-	print(current_enemies)
 	if current_enemies.size() == 0:
 		room_emptied()
 

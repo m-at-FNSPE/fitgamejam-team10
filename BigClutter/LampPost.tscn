@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Assets/Props/Candlestick.png" type="Texture" id=1]
+
+[node name="LampPost" type="Sprite"]
+scale = Vector2( 4.07799, 4.07799 )
+texture = ExtResource( 1 )

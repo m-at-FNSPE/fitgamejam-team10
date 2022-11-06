@@ -203,6 +203,8 @@ position = Vector2( 1000, 881 )
 
 [node name="Enemies" type="Node2D" parent="."]
 
+[node name="BigClutter" type="Node2D" parent="."]
+
 [connection signal="body_entered" from="Doors/North" to="." method="_on_North_body_entered"]
 [connection signal="body_entered" from="Doors/West" to="." method="_on_West_body_entered"]
 [connection signal="body_entered" from="Doors/East" to="." method="_on_East_body_entered"]
