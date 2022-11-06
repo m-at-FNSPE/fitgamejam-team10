@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://Player/Player.gd" type="Script" id=1]
 [ext_resource path="res://Player/Projectile.tscn" type="PackedScene" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://Assets/Effects/Fire/FireAttack01.png" type="Texture" id=5]
 [ext_resource path="res://Assets/Effects/Fire/FireAttack03.png" type="Texture" id=6]
 [ext_resource path="res://Assets/Effects/Fire/FireAttack04.png" type="Texture" id=7]
+[ext_resource path="res://Assets/Music/Footstep_Tile_Left_2.mp3" type="AudioStream" id=8]
 
 [sub_resource type="CircleShape2D" id=4]
 
@@ -115,7 +116,6 @@ position = Vector2( 17, -5 )
 rotation = -0.0257766
 scale = Vector2( 1.4508, 1.4508 )
 frames = SubResource( 5 )
-frame = 3
 offset = Vector2( 20.938, 3.2822 )
 
 [node name="AOE_hitbox" type="Area2D" parent="."]
@@ -144,6 +144,12 @@ __meta__ = {
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/cast = SubResource( 6 )
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 8 )
+volume_db = -10.0
+
+[node name="Timer" type="Timer" parent="."]
 
 [connection signal="body_entered" from="Center_of_mass/SwordHitBox" to="." method="_on_SwordHitBox_body_entered"]
 [connection signal="body_exited" from="Center_of_mass/SwordHitBox" to="." method="_on_SwordHitBox_body_exited"]
