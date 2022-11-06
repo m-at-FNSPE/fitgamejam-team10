@@ -17,6 +17,8 @@ export (PackedScene) var BossScene = preload("res://Enemies/Boss.tscn")
 
 export (PackedScene) var help = preload("res://BigClutter/ControlGuide.tscn")
 
+export (PackedScene) var exit = preload("res://DungeonGeneration/FloorExit.tscn")
+
 const map_size = Vector2(4,4) # from 0 to the value including
 
 var room_layout
@@ -272,7 +274,14 @@ func room_emptied():
 		spawn_stairs()
 
 func spawn_stairs():
-	pass
+	var lac = exit.instance()
+	lac.position = $PREFABS/LACTERN/Position2D.position
+	$BigClutter.call_deferred("add_child", lac)
+	lac.connect("body_entered", self, "remake_map")
+	
+func remake_map(body):
+	if body.has_method("dummy_method_only_player_has"):
+		_ready()
 
 func open_doors():
 	leavable = true

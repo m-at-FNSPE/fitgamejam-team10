@@ -145,7 +145,7 @@ func how_many_cells_active():
 
 
 func draw_state():
-	tint_pressed()
+	#tint_pressed()
 	rune_empty()
 	
 	match rune_number():
