@@ -165,7 +165,8 @@ func generate_start_room():
 	var lac1 = Lactern.instance()
 	var lac2 = Lactern.instance()
 	var h = help.instance()
-	
+	lac1.left_spawn()
+	lac2.right_spawn()
 	lac1.position = $PREFABS/START/Left.position
 	lac2.position = $PREFABS/START/Right.position
 	
@@ -174,9 +175,9 @@ func generate_start_room():
 	$sorter/BigClutter.call_deferred("add_child", lac2)
 	$sorter/BigClutter.call_deferred("add_child", h)
 	yield(get_tree().create_timer(0.1), "timeout")  # Technically wrong but its fine
-	lac1.left_spawn()
-	lac2.right_spawn()
-	
+#	lac1.left_spawn()
+#	lac2.right_spawn()
+
 
 
 
