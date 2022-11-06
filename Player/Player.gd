@@ -56,6 +56,15 @@ func spawn_projectile(type):
 		get_parent().add_child(projectile)
 		
 func sword_attack(type):
+	if type == "air":
+		$Center_of_mass/Sprite.modulate = Color(0, 1.74, 7.52)
+	elif type == "earth":
+		$Center_of_mass/Sprite.modulate = Color(0.6, 0.33, 0.07)
+	elif type == "water":
+		$Center_of_mass/Sprite.modulate = Color(0, 0.78, 21)
+	else:
+		$Center_of_mass/Sprite.modulate = Color(1, 1, 1)
+	
 	get_node("AnimationPlayer").play("cast")
 	for i in sword_coliding_with_enemies:
 		if i.has_method("hit_by_sword"):
