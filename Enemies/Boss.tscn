@@ -16,6 +16,7 @@ animations = [ {
 
 [node name="Boss" instance=ExtResource( 2 )]
 scale = Vector2( 7.63705, 7.63705 )
+life = 500
 
 [node name="CollisionShape2D" parent="." index="0"]
 scale = Vector2( 1.01989, 0.968998 )

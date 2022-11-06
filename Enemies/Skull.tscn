@@ -15,6 +15,7 @@ animations = [ {
 } ]
 
 [node name="Skull" instance=ExtResource( 1 )]
+life = 8
 
 [node name="CollisionShape2D" parent="." index="0"]
 shape = SubResource( 2 )

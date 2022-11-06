@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://Player/Player.gd" type="Script" id=1]
 [ext_resource path="res://Player/Projectile.tscn" type="PackedScene" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://Assets/Music/Picks/nullify.wav" type="AudioStream" id=9]
 [ext_resource path="res://Assets/Music/Picks/AOE.wav" type="AudioStream" id=10]
 [ext_resource path="res://Assets/Music/Picks/flame.wav" type="AudioStream" id=11]
+[ext_resource path="res://Assets/Effects/Explosion.png" type="Texture" id=12]
 
 [sub_resource type="CircleShape2D" id=4]
 
@@ -31,6 +32,34 @@ radius = 177.003
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 21.0
 height = 24.0
+
+[sub_resource type="Animation" id=7]
+resource_name = "AOE"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/path = NodePath("AOE_hitbox/Explosion:scale")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.001, 0.2, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1.27018, 1.27018 ), Vector2( 0, 0 ), Vector2( 1.27018, 1.27018 ), Vector2( 0, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("AOE_hitbox/Explosion:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
 
 [sub_resource type="Animation" id=6]
 resource_name = "cast"
@@ -117,7 +146,7 @@ __meta__ = {
 visible = false
 position = Vector2( 17, -5 )
 rotation = -0.0257766
-scale = Vector2( 1.4508, 1.4508 )
+scale = Vector2( 1.752, 1.751 )
 frames = SubResource( 5 )
 offset = Vector2( 20.938, 3.2822 )
 
@@ -129,11 +158,15 @@ __meta__ = {
 }
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AOE_hitbox"]
-visible = false
 shape = SubResource( 3 )
 __meta__ = {
 "_edit_lock_": true
 }
+
+[node name="Explosion" type="Sprite" parent="AOE_hitbox"]
+visible = false
+scale = Vector2( 1e-05, 1e-05 )
+texture = ExtResource( 12 )
 
 [node name="HitBox" type="Area2D" parent="."]
 collision_layer = 4
@@ -146,6 +179,7 @@ __meta__ = {
 }
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/AOE = SubResource( 7 )
 anims/cast = SubResource( 6 )
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]

@@ -7,7 +7,7 @@ var default_scale: Vector2
 var player: KinematicBody2D
 var direction
 
-var life = 20
+export var life = 20
 var velocity = 0
 var acceleration = 10
 var decay = 12

@@ -83,15 +83,16 @@ func sword_attack(type):
 			mana += 5
 
 func cast_nullification():
-	if mana >= maxmana - 10 or true:
+	if mana >= maxmana - 10:
 		$Nullify.play()
 		emit_signal("nullification")
 	
 func cast_aoe():
 	$AOE.play()
+	get_node("AnimationPlayer").play("AOE")
 	for i in AOE_colisions:
 		if i.has_method("hit_by_sword"):
-			i.hit_by_sword(5, facing_direction, 100, "neutral")
+			i.hit_by_sword(7, facing_direction, 100, "neutral")
 
 
 func cast_mana_stop():
