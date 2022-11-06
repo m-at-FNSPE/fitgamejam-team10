@@ -46,6 +46,17 @@ func _process(delta):
 	emit_signal("current_health", health)
 	
 	movement_controller(delta)
+	
+	if velocity.length() != 0:
+		if $Timer.time_left <= 0:
+			$AudioStreamPlayer.pitch_scale = rand_range(0.8, 1.2)
+			$AudioStreamPlayer.play()
+			$Timer.start(0.2)
+	else:
+		$AudioStreamPlayer.seek(0)
+		$AudioStreamPlayer.playing = false
+		
+
 
 func spawn_projectile(type):
 		var projectile = ProjectileScene.instance()
